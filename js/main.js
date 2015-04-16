@@ -230,7 +230,7 @@ window.onload = function() {
 		changeBedColor: function(bed,color,bedNum)
 		{
 			
-			window.alert(color);
+			//window.alert(color);
 			if(color==3)
 			{
 				//window.alert(bed.bedX);
