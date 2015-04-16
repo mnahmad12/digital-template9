@@ -100,6 +100,9 @@ window.onload = function() {
 			this.bedArray=[];
 			this.timer;
 			this.colorArray=[0x00CC00,0xFFFF00,0xFF6600,0xFF0000]
+			this.beat;
+			this.cough;
+			this.sneeze;
 		}
 	
 	
@@ -118,6 +121,9 @@ window.onload = function() {
 			this.load.spritesheet('rect','assets/rect.png');
 			this.load.spritesheet('bedText','assets/bedText.png')
 			this.load.spritesheet('keyText','assets/keyText.png')
+			game.load.audio('beat','assets/beat.mp3');
+			game.load.audio('cough','assets/cough.mp3');
+			game.load.audio('sneeze','assets/sneeze.mp3');
 			this.game.stage.backgroundColor = '#FFFFFF';
 		},
     
@@ -140,7 +146,14 @@ window.onload = function() {
 			
 		//creating 10 patients that show up in a random fashion	
 		
-		
+			//sounds
+			this.beat=game.add.audio('beat');
+			this.cough=game.add.audio('cough');
+			this.sneeze=game.add.audio('sneeze');
+			
+			this.beat.play();
+			
+			
 			this.people.createMultiple(10,"people",0,false);
 			
 			this.beds.createMultiple(4,'beds',0,false)
@@ -169,7 +182,7 @@ window.onload = function() {
 			this.keyText=this.add.sprite(600,100,'keyText');
 		// Add some text using a CSS style.
         // Center it in X, and position its top 15 pixels from the top of the world.
-			this.style = { font: "25px Verdana", fill: "#9999ff", align: "center" };
+			this.style = { font: "25px Verdana", fill: "red", align: "center" };
 			this.text = this.add.text( this.world.centerX, 15, "Welcome to the ER.", this.style );
 	
 			this.text.anchor.setTo( 0.5, 0.0 );
@@ -217,6 +230,7 @@ window.onload = function() {
 		changeBedColor: function(bed,color,bedNum)
 		{
 			
+			window.alert(color);
 			if(color==3)
 			{
 				//window.alert(bed.bedX);
@@ -313,6 +327,14 @@ window.onload = function() {
 				item.exists=true;
 				//window.alert(this.people.getChildIndex(item));
 				item.events.onDragStop.add(this.collisionHandler,this);
+				if(this.rnd.integerInRange(0,5)%2==0)
+					{
+						this.cough.play();
+					}
+				else
+					{
+						this.sneeze.play();
+					}
 				
 				
 				
@@ -361,7 +383,7 @@ window.onload = function() {
 			patient.alive=false;
 			patient.exists=false;
 			patient.visible=false;
-			window.alert(patient.exists);
+			//window.alert(patient.exists);
 		},
 		
 		update: function()
